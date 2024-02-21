@@ -10,13 +10,17 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .setTitle('lgoChaja')
-  .setDescription('The cats API description')
+  .setDescription('lgoChaja 프로젝트 API 명세서')
   .setVersion('1.0')
-  .addTag('cats')
   .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  document.paths = {}; // 디폴트 경로를 제거
 
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      servers: [],
+    },
+  })
   await app.listen(PORT);
   console.log(`server listening on port ${PORT}`);
   if (module.hot) {
