@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/Users';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
-
 import dotenv from "dotenv";
 
 dotenv.config();
