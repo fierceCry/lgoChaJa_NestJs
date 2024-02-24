@@ -4,8 +4,11 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/Users';
-import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
+import { MorganModule, MorganInterceptor } from "nest-morgan";
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,6 +16,9 @@ dotenv.config();
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    MorganModule,
+    UsersModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type : "mysql",
       host : "localhost",
@@ -27,10 +33,10 @@ dotenv.config();
       synchronize : false,
       logging : true,
       migrations: [__dirname + "/migrations/*.ts"],
-    }),
-    UsersModule
+    })
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService],
+  controllers: [AppController],
+  providers: [AppService, { provide: APP_INTERCEPTOR, useClass: MorganInterceptor("combined"),},
+],
 })
 export class AppModule {}
