@@ -14,7 +14,6 @@ async function bootstrap() {
   .setVersion('1.0')
   .build();
   const document = SwaggerModule.createDocument(app, config);
-  document.paths = {}; // 디폴트 경로를 제거
 
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
