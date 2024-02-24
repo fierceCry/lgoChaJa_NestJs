@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+
 Index("email", ["email"], { unique: true })
 @Entity({ schema: "lgoChaja", name: "users" })
 export class Users {
@@ -19,6 +21,8 @@ export class Users {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
+  @IsEmail()
+  @IsString()
   @ApiProperty({
     example: 'vlsual0917@gmail.com',
     description : '이메일'
@@ -26,6 +30,8 @@ export class Users {
   @Column("varchar", { name: "email", unique: true, length: 30 })
   email: string;
 
+  @IsNotEmpty()
+  @IsString()
   @ApiProperty({
     example: 'kimmangyu',
     description : '닉네임'
@@ -33,6 +39,8 @@ export class Users {
   @Column("varchar", { name: "nickname", length: 30 })
   nickname: string;
 
+  @IsNotEmpty()
+  @IsString()
   @ApiProperty({
     example: 'password',
     description : '비밀번호'
