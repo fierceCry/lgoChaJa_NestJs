@@ -23,4 +23,4 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
     - name: Upload to EC2
-      run: scp -i ~/.ssh/id_rsa path/to/local/file ec2-user@${{ secrets.EC2_HOST }}:/path/on/ec2
+      run: scp -i ~/.ssh/id_rsa path/to/local/file ec2-user@${{ secrets.EC2_HOST }}:/path/pro
