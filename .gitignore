@@ -39,3 +39,5 @@ lerna-debug.log*
 
 # Exclude AWS key pair files
 *.pem
+*.pub
+*.ec2.host
