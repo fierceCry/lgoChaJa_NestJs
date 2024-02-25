@@ -37,7 +37,15 @@ lerna-debug.log*
 # Exclude environment files
 .env
 
-# Exclude AWS key pair files
+# .gitignore 파일 내용
+
+# Ignore private key files
 *.pem
-*.pub
-*.ec2.host
+*.pem.pub
+
+# Ignore specific files
+another_ker.pem
+another_key.pem.pub
+ec2.host
+ec2.host.pub
+lgochaja.pem
