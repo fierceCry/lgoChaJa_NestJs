@@ -7,7 +7,6 @@ import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import { UndefinedToNullInterceptor } from './common/interceptors/undefinedToNull.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 declare const module: any;
@@ -26,7 +25,7 @@ async function bootstrap() {
   .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("api/swagger/lgochaja", app, document);
 
   app.use(cookieParser());
   app.use(
@@ -62,7 +61,7 @@ async function bootstrap() {
       prefix: '/dist',
     },
   );
-  
+
   await app.listen(PORT);
   console.log(`server listening on port ${PORT}`);
   if (module.hot) {
