@@ -16,12 +16,15 @@ jobs:
     - name: Install SSH client
       run: sudo apt-get install -y openssh-client
 
-    - name: Decode SSH private key
+    - name: Set up SSH
+      run: |
         mkdir -p ~/.ssh
-      run: echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Set up known hosts
-      run: ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+    - name: Create remote directory on EC2
+      run: ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} 'mkdir -p /path/pro'
 
     - name: Upload to EC2
       run: scp -i ~/.ssh/id_rsa path/to/local/file ec2-user@${{ secrets.EC2_HOST }}:/path/pro
