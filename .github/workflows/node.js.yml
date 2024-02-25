@@ -18,9 +18,10 @@ jobs:
 
     - name: Set up SSH
       run: |
+        mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+        echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 $(cat ~/.ssh/id_rsa.pub)" >> ~/.ssh/known_hosts
 
     - name: Create remote directory on EC2
       run: ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} 'mkdir -p /path/pro'
