@@ -44,8 +44,9 @@ lerna-debug.log*
 *.pem.pub
 
 # Ignore specific files
-another_ker.pem
-another_key.pem.pub
-ec2.host
-ec2.host.pub
+EC2_HOST
+EC2_HOST.pub
 lgochaja.pem
+lgochaja.pem.pub
+secrets.USER
+secrets.USER.pub
