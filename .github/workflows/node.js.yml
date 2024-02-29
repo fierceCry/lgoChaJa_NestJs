@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-            # Add this step to debug secrets values
+      # Add this step to debug secrets values
       - name: Debug secrets
         run: |
           echo "SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}"
@@ -22,9 +22,9 @@ jobs:
       - name: SSH to EC2 and update repository
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # 내가 변수로 저장한 pem key
-          host: ${{ secrets.HOST }} # 내가 변수로 저장한 ip
-          username: ${{ secrets.USER }} # 내가 변수로 저장한 User
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
           script: |
-            cd lgochaja # 내가 Clone한 폴더 안으로 들어간다.
-            git pull # 자동으로 pull해서 주기적 업데이트
+            cd lgochaja
+            git pull
