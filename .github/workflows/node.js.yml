@@ -11,7 +11,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: ssh to ec2
+
+            # Add this step to debug secrets values
+      - name: Debug secrets
+        run: |
+          echo "SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}"
+          echo "HOST: ${{ secrets.HOST }}"
+          echo "USER: ${{ secrets.USER }}"
+
+      - name: SSH to EC2 and update repository
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }} # 내가 변수로 저장한 pem key
