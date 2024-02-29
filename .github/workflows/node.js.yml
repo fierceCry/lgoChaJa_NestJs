@@ -11,12 +11,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Debug
+        run: |
+          echo "HOST: $HOST"
+          echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+          echo "USER: $USER"
+        env:
+          HOST: ${{ secrets.HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          USER: ${{ secrets.USER }}
+
       - name: ssh to ec2
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # 내가 변수로 저장한 pem key
-          host: ${{ secrets.HOST }} # 내가 변수로 저장한 ip
-          username: ${{ secrets.USER }} # 내가 변수로 저장한 User
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
           script: |
-            cd lgochaja # 내가 Clone한 폴더 안으로 들어간다.
-            git pull # 자동으로 pull해서 주기적 업데이트
+            cd lgochaja
+            git pull
