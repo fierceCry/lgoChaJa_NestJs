@@ -5,10 +5,15 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { PostLikes } from "./PostLikes";
+import { PostsComments } from "./PostsComments";
+import { Follows } from './Follows';
+import { Report } from './Report';
 
 Index("email", ["email"], { unique: true })
 @Entity({ schema: "lgoChaja", name: "users" })
@@ -48,6 +53,18 @@ export class Users {
   @Column("varchar", { name: "password", length: 100, select: false })
   password: string;
 
+  @Column("varchar", {name : "social", length: 100, select: false })
+  social: string;
+
+  @Column("varchar", {name : "image", length: 255, default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTnQZkG7cTDC8HO4uZ4e_6Xv2ikGA3TR9VIA&usqp=CAU"})
+  image: string;
+
+  @Column("varchar", {name : "explain", length: 255, nullable: true})
+  explain: string;
+
+  @Column("char", {name : "seceret", select: true, default: "N" })
+  seceret: string;
+  
   @CreateDateColumn()
   createdAt: Date;
 
@@ -56,4 +73,23 @@ export class Users {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
+  @OneToMany(() => Report, (report) => report.loginUser, { cascade: true })
+  loginReports: Report[];
+
+  @OneToMany(() => Report, (report) => report.reportedUser, { cascade: true })
+  reportedReports: Report[];
+
+  @OneToMany(() => PostsComments, (comment) => comment.user, { cascade: true })
+  postsComments: PostsComments[];
+
+  @OneToMany(() => PostLikes, (like) => like.user, { cascade: true })
+  postLikes: PostLikes[];
+
+  @OneToMany(() => Follows, (follow) => follow.followingUser, { cascade: true })
+  followings: Follows[];
+
+  @OneToMany(() => Follows, (follow) => follow.followedUser, { cascade: true })
+  followeds: Follows[];
+  posts: any;
 }

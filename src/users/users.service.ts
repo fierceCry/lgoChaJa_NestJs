@@ -23,7 +23,7 @@ export class UsersService {
 
   }
 
-  async signUp(email: string, nickname: string, password: string): Promise<string> {
+  async signUp(email: string, nickname: string, password: string, social: string){
     const user = await this.usersRepository.findOne({ 
       where: { email } 
     });
@@ -36,6 +36,7 @@ export class UsersService {
       email,
       nickname,
       password: hashedPassword,
+      social
     });
     return 'ok';
   }

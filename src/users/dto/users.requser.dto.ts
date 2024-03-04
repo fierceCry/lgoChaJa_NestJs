@@ -5,5 +5,6 @@ export class JoinRequserDto extends PickType(Users,[
   'email',
   'nickname',
   'password',
+  "social"
   ] as const){
 }

@@ -4,6 +4,14 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entities/Users';
+import { Report } from './entities/Report';
+import { PostsComments } from './entities/PostsComments';
+import { PostsCategorys } from './entities/PostsCategorys';
+import { PostLikes } from './entities/PostLikes';
+import { PostImages } from './entities/PostImages';
+import { Post } from './entities/Post';
+import { Follows } from './entities/Follows';
+import { BaseEntity } from './entities/BaseEntity';
 import { UsersModule } from './users/users.module';
 import { MorganModule, MorganInterceptor } from "nest-morgan";
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -27,7 +35,15 @@ dotenv.config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities : [
-        Users
+        Users,
+        Report,
+        PostsComments, 
+        PostsCategorys, 
+        PostLikes,
+        PostImages,
+        Post,
+        Follows,
+        BaseEntity
       ],
       keepConnectionAlive : true,
       synchronize : false,

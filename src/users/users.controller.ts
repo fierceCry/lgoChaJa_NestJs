@@ -41,7 +41,8 @@ export class UsersController {
     const result = await this.userService.signUp(
       data.email, 
       data.nickname, 
-      data.password);
+      data.password,
+      data.social);
     return { data : result };
   }
 
