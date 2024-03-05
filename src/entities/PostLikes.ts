@@ -1,10 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from './Users';
 import { Post } from './Post';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'post_likes' })
 export class PostLikes {
 
+  @ApiProperty({
+    example: 'id',
+    description : '게시글 좋아요 아이디'
+  })
   @PrimaryGeneratedColumn()
   id: number;
 

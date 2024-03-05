@@ -12,15 +12,18 @@ export class UsersService {
     private usersRepository : Repository<Users>
   ){}
 
-  async findByEamil(email: string){
+  // async findByEamil(email: string){
+  //   return this.usersRepository.findOne({
+  //     where : {email},
+  //     select : ["id", "email", "password"]
+  //   })
+  // }
+
+  async getUser(userId : number){
     return this.usersRepository.findOne({
-      where : {email},
-      select : ["id", "email", "password"]
+      where : { id: userId },
+      select : ['id', 'email', 'explain', 'image']
     })
-  }
-
-  async getUser(){
-
   }
 
   async signUp(email: string, nickname: string, password: string, social: string){
