@@ -2,13 +2,22 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import { Users } from './Users';
 import { Post } from './Post';
 import { BaseEntity } from './BaseEntity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'posts_comments' })
 export class PostsComments extends BaseEntity {
 
+  @ApiProperty({
+    example: 'id',
+    description : '게시글 댓글 아이디'
+  })
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({
+    example: '좋은글 감사합니다',
+    description : '댓글 내용'
+  })
   @Column({ name: 'comment_content', nullable: false })
   commentContent: string;
 

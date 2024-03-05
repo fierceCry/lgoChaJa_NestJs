@@ -1,23 +1,22 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
   Column,
-  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from "typeorm";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 import { PostLikes } from "./PostLikes";
 import { PostsComments } from "./PostsComments";
 import { Follows } from './Follows';
 import { Report } from './Report';
+import { BaseEntity } from "./BaseEntity";
 
 Index("email", ["email"], { unique: true })
 @Entity({ schema: "lgoChaja", name: "users" })
-export class Users {
+export class Users extends BaseEntity{
 
   @ApiProperty({
     example: 1,
@@ -53,23 +52,33 @@ export class Users {
   @Column("varchar", { name: "password", length: 100, select: false })
   password: string;
 
+  @ApiProperty({
+    example: '일반',
+    description : '소셜명'
+  })
   @Column("varchar", {name : "social", length: 100, select: false })
   social: string;
 
+  @ApiProperty({
+    example: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTnQZkG7cTDC8HO4uZ4e_6Xv2ikGA3TR9VIA&usqp=CAU',
+    description : '이미지'
+  })
   @Column("varchar", {name : "image", length: 255, default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTnQZkG7cTDC8HO4uZ4e_6Xv2ikGA3TR9VIA&usqp=CAU"})
   image: string;
 
+  @ApiProperty({
+    example: '안녕하세요 OOO입니다.',
+    description : '유저 소개글'
+  })
   @Column("varchar", {name : "explain", length: 255, nullable: true})
   explain: string;
 
+  @ApiProperty({
+    example: 'N',
+    description : '프로필 공개 여부'
+  })
   @Column("char", {name : "seceret", select: true, default: "N" })
   seceret: string;
-  
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date | null;

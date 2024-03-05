@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { Users } from '../entities/Users';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {

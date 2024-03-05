@@ -1,10 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from './Users';
 import { BaseEntity } from './BaseEntity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'Follows' })
 export class Follows extends BaseEntity {
 
+  @ApiProperty({
+    example: 'id',
+    description : '팔로우 아이디'
+  })
   @PrimaryGeneratedColumn()
   id: number;
 
