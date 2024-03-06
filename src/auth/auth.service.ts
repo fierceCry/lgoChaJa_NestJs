@@ -27,4 +27,21 @@ export class AuthService {
     }
     return null;
   }
+
+  async socialUser(email:string, username: string, profile_image:string, provider: string){
+    const user = await this.usersRepository.findOne({
+      where: { email},
+      select: ['id', 'email', 'nickname', 'social'],
+    });
+    if (!user) {
+      const user = this.usersRepository.create({
+        email,
+        nickname: username,
+        image: profile_image,
+        social: provider
+      });
+      await this.usersRepository.save(user);
+    }
+    return user;
+  }
 }

@@ -5,12 +5,19 @@ import { Users } from '../entities/Users';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
 import { LocalSerializer } from './local.serializer';
+import { AuthController } from './auth.controller';
+import { KakaoStrategy } from './kakao-strategy';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
     PassportModule.register({ session: true }),
     TypeOrmModule.forFeature([Users]),
+    JwtModule.register({}),
+    UsersModule,
   ],
-  providers: [AuthService, LocalStrategy, LocalSerializer],
+  providers: [AuthService, LocalStrategy, LocalSerializer, KakaoStrategy],
+  controllers: [AuthController],
 })
 export class AuthModule {}
