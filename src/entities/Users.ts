@@ -49,7 +49,7 @@ export class Users extends BaseEntity{
     example: 'password',
     description : '비밀번호'
   })
-  @Column("varchar", { name: "password", length: 100, select: false })
+  @Column("varchar", { name: "password", length: 100, nullable: true})
   password: string;
 
   @ApiProperty({

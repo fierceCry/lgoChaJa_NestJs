@@ -16,18 +16,13 @@ import { UsersModule } from './users/users.module';
 import { MorganModule, MorganInterceptor } from "nest-morgan";
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
-
 import dotenv from "dotenv";
-import { PassportModule } from '@nestjs/passport';
 
 dotenv.config();
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PassportModule.register({
-      session : true
-    }),
     MorganModule,
     UsersModule,
     AuthModule,
