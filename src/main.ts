@@ -45,6 +45,7 @@ async function bootstrap() {
   const SequelizeStore = connectSessionSequelize(session.Store);
   const sessionStore = new SequelizeStore({
     db: sequelize,
+    expiration: 86400000,
   });
   sessionStore.sync();
 
@@ -54,10 +55,10 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       secret: process.env.COOKIE_SECRET,
+      store: sessionStore,
       cookie: {
         httpOnly: true,
       },
-      store: sessionStore
     }),
   );
 
