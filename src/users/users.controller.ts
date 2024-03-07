@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UsersService } from './users.service';
@@ -12,7 +12,8 @@ import { UserLoginDto } from './dto/user-login.dto';
 @ApiTags('USERS')
 @Controller('api/users')
 export class UsersController {
-  constructor(private userService: UsersService){
+  constructor(
+    private userService: UsersService,){
   }
 
   @ApiCookieAuth('connect.sid')
@@ -26,7 +27,7 @@ export class UsersController {
     id : 1,
     email : "vlsual0917@gmail.com,
     nickname : 김만규,
-    image : http://,
+    image : http://k.kakaocdn.net/dn/BK2Go/btsvMFdmAnc/EiuRgwn5bioUA9cTEFmF7K/img_640x640.jpg,
     explain : 안녕하세요 OOO입니다
     `
   })
@@ -82,10 +83,23 @@ export class UsersController {
   @ApiOperation({
     summary : "로그아웃"
   })
+  @ApiResponse({
+    status: 200,
+    description : 'ok'
+  })
+  @ApiResponse({
+    status: 400,
+    description : 'session delete err'
+  })
   @UseGuards(new LoggedInGuard())
-  @Post("logout")
-  logOut(){
-
+  @Get("/logout")
+  async logOut(@Req() req, @Res() res){
+    req.session.destroy((err) => {
+      if (err) {
+        return new BadRequestException('session err')
+      }
+      res.clearCookie('connect.sid', { httpOnly: true });
+      return res.status(200).send('ok');
+    });
   }
 }
-

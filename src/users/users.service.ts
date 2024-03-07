@@ -12,13 +12,6 @@ export class UsersService {
     private usersRepository : Repository<Users>
   ){}
 
-  // async findByEamil(email: string){
-  //   return this.usersRepository.findOne({
-  //     where : {email},
-  //     select : ["id", "email", "password"]
-  //   })
-  // }
-
   async getUser(userId : number){
     return this.usersRepository.findOne({
       where : { id: userId },
@@ -28,7 +21,9 @@ export class UsersService {
 
   async signUp(email: string, nickname: string, password: string, social: string){
     const user = await this.usersRepository.findOne({ 
-      where: { email } 
+      where: {     
+        email: email
+      } 
     });
     if (user) {
       throw new ForbiddenException('이미 존재하는 사용자입니다');
