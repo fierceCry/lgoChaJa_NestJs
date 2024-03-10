@@ -6,9 +6,10 @@ import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
 import { LocalSerializer } from './local.serializer';
 import { AuthController } from './auth.controller';
-import { KakaoStrategy } from './kakao-strategy';
+import { KakaoStrategy } from './kakao/kakao-strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
+import { GoogleStrategy } from './google/google-strategy';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UsersModule } from 'src/users/users.module';
     JwtModule.register({}),
     UsersModule,
   ],
-  providers: [AuthService, LocalStrategy, LocalSerializer, KakaoStrategy],
+  providers: [AuthService, LocalStrategy, LocalSerializer, KakaoStrategy, GoogleStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}
