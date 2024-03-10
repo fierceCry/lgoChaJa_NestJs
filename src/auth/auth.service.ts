@@ -30,7 +30,7 @@ export class AuthService {
 
   async socialUser(email:string, username: string, profile_image:string, provider: string){
     const user = await this.usersRepository.findOne({
-      where: { email},
+      where: { email },
       select: ['id', 'email', 'nickname', 'social'],
     });
     if (!user) {
