@@ -31,7 +31,7 @@ export class Users extends BaseEntity{
     example: 'vlsual0917@gmail.com',
     description : '이메일'
   })
-  @Column("varchar", { name: "email", unique: true, length: 30 })
+  @Column("varchar", { name: "email", length: 30 })
   email: string;
 
   @IsNotEmpty()

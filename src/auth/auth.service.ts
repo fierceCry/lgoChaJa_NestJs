@@ -30,17 +30,20 @@ export class AuthService {
 
   async socialUser(email:string, username: string, profile_image:string, provider: string){
     const user = await this.usersRepository.findOne({
-      where: { email },
+      where: {
+        email: email,
+        social: provider,
+      },
       select: ['id', 'email', 'nickname', 'social'],
     });
     if (!user) {
       const user = this.usersRepository.create({
-        email,
+        email: email,
         nickname: username,
         image: profile_image,
         social: provider
       });
-      await this.usersRepository.save(user);
+      return await this.usersRepository.save(user);
     }
     return user;
   }
