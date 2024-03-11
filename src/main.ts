@@ -45,7 +45,8 @@ async function bootstrap() {
   const SequelizeStore = connectSessionSequelize(session.Store);
   const sessionStore = new SequelizeStore({
     db: sequelize,
-    expiration: 86400000,
+    expiration: 3600000,
+    checkExpirationInterval: 3600000 // 15분마다 만료된 세션을 체크하여 삭제
   });
   sessionStore.sync();
 
@@ -58,6 +59,7 @@ async function bootstrap() {
       store: sessionStore,
       cookie: {
         httpOnly: true,
+        maxAge : 3600000
       },
     }),
   );

@@ -16,14 +16,14 @@ export class SessionSerializer extends PassportSerializer {
   
   serializeUser(user: any, done: CallableFunction) {
     console.log(user)
-    done(null, user.emali);
+    done(null, user.email);
   }
 
   async deserializeUser(userId: any, done: CallableFunction) {
     console.log(userId);
     return await this.usersRepository
     .findOneOrFail({
-      where: { id: +userId },
+      where: { id: userId },
       select: ['id', 'email', 'nickname'],
       relations: [],
     })

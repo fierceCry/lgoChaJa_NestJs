@@ -22,7 +22,8 @@ export class UsersService {
   async signUp(email: string, nickname: string, password: string, social: string){
     const user = await this.usersRepository.findOne({ 
       where: {     
-        email: email
+        email: email,
+        social: social,
       } 
     });
     if (user) {

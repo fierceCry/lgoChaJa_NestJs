@@ -20,7 +20,6 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   async deserializeUser(userId: any, done: CallableFunction) {
-    console.log(userId);
     return await this.usersRepository
     .findOneOrFail({
       where: { id: userId },
