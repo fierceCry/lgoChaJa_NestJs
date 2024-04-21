@@ -48,9 +48,9 @@ export class UsersService {
     return result;
   }
 
-  async findPassword(id: number){
+  async findPassword(email: string){
     const result = await this.usersRepository.findOne({
-      where : { id: id },
+      where : { email: email },
       select : ['email']
     })
     return result;
