@@ -111,10 +111,10 @@ export class UsersController {
 
   @Get('find/password')
   async findPassword(
-    @User() user: Users,
     @Param('email') email: string,
   ) {
-    return this.userService.findPassword(user.id);
+    return this.userService.findPassword(email);
+
   }
 
 }
