@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UsersService } from './users.service';
@@ -7,7 +7,6 @@ import { LoggedInGuard } from 'src/auth/logged-in.guard';
 import { NotLoggedInGuard } from 'src/auth/not-logged-in.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
-import { UserLoginDto } from './dto/user-login.dto';
 
 @ApiTags('USERS')
 @Controller('api/users')
@@ -15,7 +14,6 @@ export class UsersController {
   constructor(
     private userService: UsersService,){
   }
-
   @ApiCookieAuth('connect.sid')
   @ApiOperation({
     summary : "유저 정보 조회"
@@ -77,7 +75,8 @@ export class UsersController {
   })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() data: UserLoginDto){
+  async login(@User() user: Users){
+    return user;
   }
 
   @ApiOperation({
@@ -99,7 +98,23 @@ export class UsersController {
         return new BadRequestException('session err')
       }
       res.clearCookie('connect.sid', { httpOnly: true });
-      return res.status(200).send('ok');
+      return res.status(200).send();
     });
   }
+
+  @Get('find/email')
+  async findEmail(
+    @Param('email') email:string
+  ){
+    return this.userService.findEmail(email)
+  }
+
+  @Get('find/password')
+  async findPassword(
+    @User() user: Users,
+    @Param('email') email: string,
+  ) {
+    return this.userService.findPassword(user.id);
+  }
+
 }

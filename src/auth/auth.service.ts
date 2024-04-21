@@ -11,10 +11,10 @@ export class AuthService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string, social:string ) {
     const user = await this.usersRepository.findOne({
-      where: { email },
-      select: ['id', 'email', 'password'],
+      where: { email, social },
+      select: ['id', 'email', 'password', 'nickname'],
     });
     console.log(email, password, user);
     if (!user) {

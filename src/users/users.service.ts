@@ -37,6 +37,22 @@ export class UsersService {
       password: hashedPassword,
       social
     });
-    return 'ok';
+    return '회원가입 완료했습니다.';
+  }
+
+  async findEmail(email: string){
+    const result = await this.usersRepository.findOne({
+      where : { email: email },
+      select : ['email']
+    })
+    return result;
+  }
+
+  async findPassword(id: number){
+    const result = await this.usersRepository.findOne({
+      where : { id: id },
+      select : ['email']
+    })
+    return result;
   }
 }

@@ -80,6 +80,12 @@ export class Users extends BaseEntity{
   @Column("char", {name : "seceret", select: true, default: "N" })
   seceret: string;
 
+  @Column("varchar", { name: "verificationCode", length: 20, nullable: true })
+  verificationCode: string;  
+
+  @Column({ name: "expiration_time",  nullable: true })
+  expirationTime:  Date | null;
+
   @DeleteDateColumn()
   deletedAt: Date | null;
 
