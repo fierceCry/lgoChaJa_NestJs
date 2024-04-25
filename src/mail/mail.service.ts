@@ -1,4 +1,3 @@
-// MailService
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { randomBytes } from 'crypto';
@@ -7,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import bcrypt from "bcrypt";
-
 
 @Injectable()
 export class MailService {

@@ -1,3 +1,4 @@
+// app.module.ts
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,9 +16,10 @@ import { BaseEntity } from './entities/BaseEntity';
 import { UsersModule } from './users/users.module';
 import { MorganModule, MorganInterceptor } from "nest-morgan";
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { AuthModule } from './auth/auth.module';
 import dotenv from "dotenv";
 import { MailModule } from './mail/mail.module';
+import { MypageModule } from './mypage/mypage.module';
+import { AuthModule } from './auth/auth.module';
 
 dotenv.config();
 
@@ -28,6 +30,7 @@ dotenv.config();
     UsersModule,
     AuthModule,
     MailModule,
+    MypageModule,
     TypeOrmModule.forRoot({
       type : "mysql",
       host : process.env.DB_HOST,

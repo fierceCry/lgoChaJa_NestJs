@@ -1,13 +1,10 @@
-// MailController
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param} from '@nestjs/common';
 import { MailService } from './mail.service';
-import { UsersService } from 'src/users/users.service';
 
 @Controller('api/mail')
 export class MailController {
   constructor(
     private readonly mailService: MailService,
-    private readonly userService: UsersService,
   ) {}
 
   @Get('id/:email')
@@ -23,7 +20,7 @@ export class MailController {
     return await this.mailService.verifyCode(verificationCode, email);
   }
 
-  @Get('password/:email') // 수정
+  @Get('password/:email')
   async sendPasswordResetEmail(@Param('email') email: string){
     return await this.mailService.sendPasswordResetEmail(email);
   }
