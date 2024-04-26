@@ -15,7 +15,7 @@ export class UsersService {
   async getUser(userId : number){
     return this.usersRepository.findOne({
       where : { id: userId },
-      select : ['id', 'email', 'explain', 'image']
+      select : ['id', 'email', 'userExplain', 'image']
     })
   }
 

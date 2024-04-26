@@ -14,11 +14,10 @@ export class Follows extends BaseEntity {
   id: number;
 
   @ManyToOne(() => Users, user => user.followings)
-  @JoinColumn({ name: 'login_id' })
+  @JoinColumn({ name: 'follower_id' })
   followingUser: Users;
 
   @ManyToOne(() => Users, user => user.followeds)
-  @JoinColumn({ name: 'follow_id' })
+  @JoinColumn({ name: 'followed_id' })
   followedUser: Users;
-
 }
