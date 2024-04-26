@@ -14,15 +14,20 @@ export class MypageController {
     return await this.mypageService.findFollowedUsers(user.id);
   }
 
-  @Patch('/setting/password')
+  @Patch('/setting/password/:password/:newPassword')
   async passwordChage(
     @User() user: Users,
-    @Body('password') password: string,
-    @Body('newPassword') newPassword: string
+    @Param('password') password: string,
+    @Param('newPassword') newPassword: string
   ){
-    console.log(user.id)
-    console.log(password)
-    console.log(newPassword)
     return await this.mypageService.password(user.id, password, newPassword)
+  }
+
+  @Get('/other/detail/:other')
+  async otherUserDetailPage(
+    @Param('other') otherId: number
+  ){
+    console.log(otherId)
+    return await this.mypageService.findFollowedUsers(otherId)
   }
 }
