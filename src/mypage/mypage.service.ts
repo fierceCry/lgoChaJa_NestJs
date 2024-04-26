@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/Users';
 import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
+import bcrypt from "bcrypt";
 
 @Injectable()
 export class MypageService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    private readonly userService: UsersService
   ) {}
 
   async findFollowedUsers(userId: number) {
@@ -35,7 +38,6 @@ export class MypageService {
       FROM users u
       WHERE u.id = ?
       GROUP BY u.id; 
-    
     `,
       [userId],
     );
@@ -73,4 +75,20 @@ export class MypageService {
   
   }
 
+  async password(userId:number, password:string, newPassword:string){
+    const result = await this.userService.getUser(userId)
+    if(!result){
+      throw new ForbiddenException('없는 사용자 입니다.');
+    }
+    const hashedPassword = await bcrypt.compare(password, result.password);
+    if(!hashedPassword){
+      throw new ForbiddenException('기존 패스워드가 틀립니다.');
+    }
+    const hashedNewPassword = await bcrypt.hash(newPassword, parseInt(process.env.HASHSALT));
+
+    await this.usersRepository
+    .update({ id: userId }, { password: hashedNewPassword });
+
+    return { data: "패스워드 변경되었습니다."};
+  }
 }
