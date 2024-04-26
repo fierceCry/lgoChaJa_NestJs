@@ -52,6 +52,7 @@ dotenv.config();
       keepConnectionAlive : true,
       synchronize : false,
       logging : true,
+      retryDelay: 1000,
       migrations: [__dirname + "/migrations/*.ts"],
     }),
   ],

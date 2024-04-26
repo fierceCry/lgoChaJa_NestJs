@@ -4,6 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinTable,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -13,6 +14,7 @@ import { PostsComments } from "./PostsComments";
 import { Follows } from './Follows';
 import { Report } from './Report';
 import { BaseEntity } from "./BaseEntity";
+import { Post } from "./Post";
 
 Index("email", ["email"], { unique: true })
 @Entity({ schema: "lgoChaja", name: "users" })
@@ -70,19 +72,27 @@ export class Users extends BaseEntity{
     example: '안녕하세요 OOO입니다.',
     description : '유저 소개글'
   })
-  @Column("varchar", {name : "explain", length: 255, nullable: true})
-  explain: string;
+  @Column("varchar", {name : "user_explain", length: 255, nullable: true})
+  userExplain: string;
 
   @ApiProperty({
     example: 'N',
     description : '프로필 공개 여부'
   })
-  @Column("char", {name : "seceret", select: true, default: "N" })
-  seceret: string;
+  @Column("char", {name : "user_seceret", select: true, default: "N" })
+  userSeceret: string;
 
+  @ApiProperty({
+    example: 'EEK1SD',
+    description : '인증번호'
+  })
   @Column("varchar", { name: "verificationCode", length: 20, nullable: true })
   verificationCode: string;  
 
+  @ApiProperty({
+    example: '2023-04-02',
+    description : '인증번호 만료시간'
+  })
   @Column({ name: "expiration_time",  nullable: true })
   expirationTime:  Date | null;
 
@@ -95,6 +105,9 @@ export class Users extends BaseEntity{
   @OneToMany(() => Report, (report) => report.reportedUser, { cascade: true })
   reportedReports: Report[];
 
+  @OneToMany(() => Post, post => post.user, {cascade: true,})
+  posts: Post[];
+
   @OneToMany(() => PostsComments, (comment) => comment.user, { cascade: true })
   postsComments: PostsComments[];
 
@@ -106,5 +119,4 @@ export class Users extends BaseEntity{
 
   @OneToMany(() => Follows, (follow) => follow.followedUser, { cascade: true })
   followeds: Follows[];
-  posts: any;
 }

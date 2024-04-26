@@ -3,14 +3,14 @@ import { MypageService } from './mypage.service';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 
-@Controller('mypage')
+@Controller('api/mypage')
 export class MypageController {
   constructor(private readonly mypageService: MypageService) {}
 
   @Get('/detail')
-  async userPage(
+  async findFollowedUsers(
     @User() user: Users,
   ) {
-    return await this.mypageService.userPage(user.id);
+    return await this.mypageService.findFollowedUsers(user.id);
   }
 }
