@@ -14,6 +14,7 @@ export class MypageService {
   ) {}
 
   async findFollowedUsers(userId: number) {
+    console.log(userId)
     return this.usersRepository.query(
       `
       SELECT 
