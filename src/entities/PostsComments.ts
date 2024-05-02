@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Users } from './Users';
 import { Post } from './Post';
 import { BaseEntity } from './BaseEntity';
@@ -28,4 +28,12 @@ export class PostsComments extends BaseEntity {
   @ManyToOne(() => Post, { nullable: false })
   @JoinColumn({ name: 'post_id', referencedColumnName: 'id' })
   post: Post;
+
+  @OneToMany(() => PostsComments, comment => comment.parentComment, { cascade: true, nullable: true })
+  @JoinColumn({ name: 'parent_comment_id' })
+  childComments: PostsComments[];
+
+  @ManyToOne(() => PostsComments, comment => comment.childComments, { nullable: true })
+  @JoinColumn({ name: 'parent_comment_id', referencedColumnName: 'id' })
+  parentComment: PostsComments;
 }

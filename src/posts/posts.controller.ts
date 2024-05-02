@@ -16,6 +16,9 @@ export class PostsController {
     @Body('postCategory') postCategory:number,
     @Body('imageUrl') postImage: string
   ){
+    console.log(post)
+    console.log(postCategory)
+    console.log(postImage)
     const result = await this.postService.postCreate(
       user.id, 
       post.postContent, 
