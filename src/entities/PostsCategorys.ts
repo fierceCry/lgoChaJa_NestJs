@@ -13,13 +13,6 @@ export class PostsCategorys {
   id: number;
 
   @ApiProperty({
-    example: '1',
-    description : '게시글 아이디'
-  })
-  @Column({ name: 'post_id' })
-  postId: number;
-
-  @ApiProperty({
     example: '패션',
     description : '카테고리 이름'
   })

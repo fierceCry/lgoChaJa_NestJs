@@ -61,5 +61,4 @@ export class Post extends BaseEntity {
   @ManyToOne(() => PostsCategorys, postsCategory => postsCategory.posts, { nullable: false })
   @JoinColumn({ name: 'post_category_id' })
   postsCategorys: PostsCategorys;
-
 }
