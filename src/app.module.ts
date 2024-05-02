@@ -20,17 +20,14 @@ import dotenv from "dotenv";
 import { MailModule } from './mail/mail.module';
 import { MypageModule } from './mypage/mypage.module';
 import { AuthModule } from './auth/auth.module';
+import { PostsController } from './posts/posts.controller';
+import { PostsModule } from './posts/posts.module';
 
 dotenv.config();
-
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     MorganModule,
-    UsersModule,
-    AuthModule,
-    MailModule,
-    MypageModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type : "mysql",
       host : process.env.DB_HOST,
@@ -55,6 +52,11 @@ dotenv.config();
       retryDelay: 1000,
       migrations: [__dirname + "/migrations/*.ts"],
     }),
+    UsersModule,
+    AuthModule,
+    MailModule,
+    MypageModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_INTERCEPTOR, useClass: MorganInterceptor("combined"),}
