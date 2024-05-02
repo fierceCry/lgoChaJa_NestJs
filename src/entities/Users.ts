@@ -4,7 +4,6 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinTable,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";

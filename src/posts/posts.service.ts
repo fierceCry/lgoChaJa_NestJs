@@ -12,6 +12,7 @@ export class PostsService {
     private postImageRepository: Repository<PostImages>,
   ) {}
 
+  // 게시글 생성
   async postCreate(
     userId: number,
     postContent: string,
@@ -40,6 +41,7 @@ export class PostsService {
     return '게시글이 생성되었습니다.';
   }
 
+  // 게시글 전체조회
   async allPostGet() {
     try {
       const posts = await this.postRepository
@@ -53,6 +55,7 @@ export class PostsService {
     }
   }
 
+  // 게시글 수정
   async modifyPost(
     userId: number,
     postId: number,
@@ -75,7 +78,6 @@ export class PostsService {
     `,
       [postContent, postTitle, postsCategorys, tags, postId, userId],
     );
-
     await this.postImageRepository.query(
       `
       UPDATE post_images
@@ -87,5 +89,25 @@ export class PostsService {
       [postImages, postId]
     )
     return "게시글 수정완료"
+  }
+
+  //게시글 삭제
+  async postDelete(userId: number, postId: number) {
+    const post = await this.postRepository.findOne({
+      where: { id: postId, userId: userId }
+    });
+    if (!post) {
+      throw new Error('글이 존재하지 않거나 해당 사용자에 의해 생성된 글이 아닙니다.');
+    }
+    await this.postImageRepository.query(
+      `
+      DELETE FROM post_images 
+      WHERE post_id = ?
+      `, 
+      [postId]
+    );
+  
+    await this.postRepository.delete({ id: postId });
+    return "Post deleted successfully";
   }
 }

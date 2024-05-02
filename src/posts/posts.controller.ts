@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
@@ -50,5 +50,13 @@ export class PostsController {
       updateData.tags
     );
     return { data: result };
+  }
+
+  @Delete('/post/delete/:postId')
+  async postDelete(
+    @User() user: Users,
+    @Param('postId') postId:number
+  ){
+    return await this.postService.postDelete(user.id, postId)
   }
 }
