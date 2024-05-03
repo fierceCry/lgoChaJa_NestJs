@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Users } from 'src/entities/Users';
 import { User } from 'src/common/decorators/user.decorator';
@@ -35,6 +35,20 @@ export class CommentsController {
       postId,
       commentsId,
       commets
+    )
+    return {data: result}
+  }
+
+  @Delete('post/:postId/comments/:commentsId')
+  async commentsDelete(
+    @User() user:Users,
+    @Param('postId') postId:number,
+    @Param('commentsId') commentsId:number
+  ){
+    const result = await this.commentsService.commentsDelete(
+      user.id,
+      postId,
+      commentsId
     )
     return {data: result}
   }
