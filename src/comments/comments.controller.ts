@@ -27,7 +27,15 @@ export class CommentsController {
   async commentsPatch(
     @User() user:Users,
     @Param('postId') postId:number,
+    @Param('commentsId') commentsId:number,
+    @Body('comments') commets:string
   ){
-
+    const result = await this.commentsService.commentsPatch(
+      user.id,
+      postId,
+      commentsId,
+      commets
+    )
+    return {data: result}
   }
 }
