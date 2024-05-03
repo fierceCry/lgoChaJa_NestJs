@@ -4,11 +4,23 @@ import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 import { UserCreateDto } from './dto/post-create.dto';
 import { UpdatePostDto } from './dto/post-put.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('POST')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postService: PostsService){}
 
+  @ApiOperation({
+    summary : "유저 게시글 생성"
+  })
+  @ApiResponse({
+    status: 200,
+    description : 
+    `
+    '게시글이 생성되었습니다.'
+    `
+  })
   @Post('/create')
   async postCreate(
     @User() user: Users,
@@ -16,9 +28,6 @@ export class PostsController {
     @Body('postCategory') postCategory:number,
     @Body('imageUrl') postImage: string
   ){
-    console.log(post)
-    console.log(postCategory)
-    console.log(postImage)
     const result = await this.postService.postCreate(
       user.id, 
       post.postContent, 
@@ -30,6 +39,16 @@ export class PostsController {
     return { data : result}
   }
 
+  @ApiOperation({
+    summary : "유저 게시글 조회"
+  })
+  @ApiResponse({
+    status: 200,
+    description : 
+    `
+    '게시글이 생성되었습니다.'
+    `
+  })
   @Get('/detail')
   async allPostGet(
   ){
@@ -37,6 +56,16 @@ export class PostsController {
     return {data: reuslt}
   }
 
+  @ApiOperation({
+    summary : "유저 게시글 수정"
+  })
+  @ApiResponse({
+    status: 200,
+    description : 
+    `
+    '게시글 수정 완료'
+    `
+  })
   @Put('/modify/:postId')
   async postPatch(
     @User() user: Users,
@@ -55,6 +84,16 @@ export class PostsController {
     return { data: result };
   }
 
+  @ApiOperation({
+    summary : "유저 게시글 삭제"
+  })
+  @ApiResponse({
+    status: 200,
+    description : 
+    `
+    '게시글 삭제 완료'
+    `
+  })
   @Delete('/post/delete/:postId')
   async postDelete(
     @User() user: Users,

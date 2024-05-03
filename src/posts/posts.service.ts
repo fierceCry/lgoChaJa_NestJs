@@ -88,7 +88,7 @@ export class PostsService {
       `,
       [postImages, postId]
     )
-    return "게시글 수정완료"
+    return "게시글 수정 완료"
   }
 
   //게시글 삭제
@@ -108,6 +108,6 @@ export class PostsService {
     );
   
     await this.postRepository.delete({ id: postId });
-    return "Post deleted successfully";
+    return "게시글 삭제 완료";
   }
 }
