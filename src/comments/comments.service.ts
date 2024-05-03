@@ -41,4 +41,21 @@ export class CommentsService {
 
     return "댓글 수정 성공";
   }
+
+  async commentsDelete(userId:number, postId:number, commentsId:number){
+    const foundComment = await this.postCommentsRepository.findOne({
+      where: {
+        id: commentsId,
+        user: { id: userId },
+        post: { id: postId }
+      }
+    });
+    if (!foundComment) {
+      throw new Error("댓글을 찾을 수 없거나 수정 권한이 없습니다.");
+    }
+    await this.postCommentsRepository.delete({
+      id: commentsId
+    })
+    return "댓글 삭제 성공";
+  }
 }
