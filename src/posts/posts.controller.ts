@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 import { UserCreateDto } from './dto/post-create.dto';
 import { UpdatePostDto } from './dto/post-put.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoggedInGuard } from 'src/auth/logged-in.guard';
 
 @ApiTags('POST')
-@Controller('posts')
+@Controller('lgoChaja/posts')
 export class PostsController {
   constructor(private readonly postService: PostsService){}
 
@@ -21,7 +22,8 @@ export class PostsController {
     '게시글이 생성되었습니다.'
     `
   })
-  @Post('/create')
+  @Post()
+  @UseGuards(new LoggedInGuard())
   async postCreate(
     @User() user: Users,
     @Body() post: UserCreateDto,
@@ -40,7 +42,7 @@ export class PostsController {
   }
 
   @ApiOperation({
-    summary : "유저 게시글 조회"
+    summary : "전체 게시글 조회"
   })
   @ApiResponse({
     status: 200,
@@ -49,7 +51,8 @@ export class PostsController {
     '게시글이 생성되었습니다.'
     `
   })
-  @Get('/detail')
+  @Get()
+  @UseGuards(new LoggedInGuard())
   async allPostGet(
   ){
     const reuslt = await this.postService.allPostGet()
@@ -66,7 +69,8 @@ export class PostsController {
     '게시글 수정 완료'
     `
   })
-  @Put('/modify/:postId')
+  @Put(':postId')
+  @UseGuards(new LoggedInGuard())
   async postPatch(
     @User() user: Users,
     @Param('postId') postId: number,
@@ -94,7 +98,8 @@ export class PostsController {
     '게시글 삭제 완료'
     `
   })
-  @Delete('/post/delete/:postId')
+  @Delete(':postId')
+  @UseGuards(new LoggedInGuard())
   async postDelete(
     @User() user: Users,
     @Param('postId') postId:number

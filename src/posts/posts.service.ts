@@ -46,15 +46,25 @@ export class PostsService {
     try {
       const posts = await this.postRepository
         .createQueryBuilder('post')
-        .leftJoinAndSelect('post.postImages', 'image')
-        .leftJoinAndSelect('post.postsCategorys', 'category')
+        .innerJoinAndSelect('post.user', 'u')
+        .innerJoinAndSelect('post.postsCategorys', 'pc')
+        .select([
+          'post.id', 
+          'post.userId', 
+          'post.postTitle', 
+          'post.postContent', 
+          'post.tags'
+        ])
+        .addSelect('u.nickname')
+        .addSelect('pc.category_name')
         .getMany();
       return posts;
     } catch {
-      throw new NotFoundException('조회할수없습니다.');
+      throw new NotFoundException('조회할 수 없습니다.');
     }
   }
-
+  
+  
   // 게시글 수정
   async modifyPost(
     userId: number,

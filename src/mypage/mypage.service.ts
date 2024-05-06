@@ -13,8 +13,7 @@ export class MypageService {
     private readonly userService: UsersService
   ) {}
 
-  async findFollowedUsers(userId: number) {
-    console.log(userId)
+  async getUserDetails(userId: number) {
     return this.usersRepository.query(
       `
       SELECT 
@@ -44,7 +43,7 @@ export class MypageService {
     );
   }
 
-  // findFollowedUsers 쿼리빌덕로 수정한것
+  // getUserDetails 쿼리빌덕로 수정한것
   async findFollowedUserss(userId: number) {
     return this.usersRepository
     .createQueryBuilder('u')
@@ -76,7 +75,7 @@ export class MypageService {
   
   }
 
-  async password(userId:number, password:string, newPassword:string){
+  async passwordChange(userId:number, password:string, newPassword:string){
     const result = await this.userService.getUser(userId)
     if(!result){
       throw new ForbiddenException('없는 사용자 입니다.');
