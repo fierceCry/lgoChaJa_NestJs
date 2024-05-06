@@ -3,9 +3,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Query,
   Req,
   Res,
   UseGuards,
@@ -25,10 +23,9 @@ import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 
 @ApiTags('USERS')
-@Controller('api/users')
+@Controller('api/lgoChaja/users')
 export class UsersController {
   constructor(private userService: UsersService) {}
-  @ApiCookieAuth('connect.sid')
   @ApiOperation({
     summary: '유저 정보 조회',
   })
@@ -42,7 +39,7 @@ export class UsersController {
     explain : 안녕하세요 OOO입니다
     `,
   })
-  @Get('/lgoChaja/get')
+  @Get('/profile')
   async getUser(@User() user: Users) {
     return this.userService.getUser(user.id);
   }
@@ -63,8 +60,9 @@ export class UsersController {
     description: `data:이미 존재하는 사용자입니다`,
   })
   @UseGuards(new NotLoggedInGuard())
-  @Post('/post')
+  @Post('/register')
   async signUp(@Body() data: UserCreateDto) {
+    console.log(data)
     const result = await this.userService.signUp(
       data.email,
       data.nickname,

@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Users } from 'src/entities/Users';
 import { User } from 'src/common/decorators/user.decorator';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoggedInGuard } from 'src/auth/logged-in.guard';
 
 @ApiTags('COMMENTS')
-@Controller('comments')
+@Controller('api/v1/posts')
 export class CommentsController {
   constructor(
     private readonly commentsService : CommentsService
@@ -16,12 +17,13 @@ export class CommentsController {
   })
   @ApiResponse({
     status: 200,
-    description : 
+    description: 
     `
     댓글 완료
     `
   })
-  @Post('/post/:postId')
+  @Post('/:postId/comments')
+  @UseGuards(new LoggedInGuard())
   async commentsCreate(
     @User() user: Users,
     @Param('postId') postId : number,
@@ -40,23 +42,24 @@ export class CommentsController {
   })
   @ApiResponse({
     status: 200,
-    description : 
+    description: 
     `
     댓글 수정 완료
     `
   })
-  @Patch('post/:postId/:commentsId')
+  @Patch('/:postId/comments/:commentsId')
+  @UseGuards(new LoggedInGuard())
   async commentsPatch(
-    @User() user:Users,
-    @Param('postId') postId:number,
-    @Param('commentsId') commentsId:number,
-    @Body('comments') commets:string
+    @User() user: Users,
+    @Param('postId') postId: number,
+    @Param('commentsId') commentsId: number,
+    @Body('comments') comments: string
   ){
     const result = await this.commentsService.commentsPatch(
       user.id,
       postId,
       commentsId,
-      commets
+      comments
     )
     return {data: result}
   }
@@ -66,16 +69,17 @@ export class CommentsController {
   })
   @ApiResponse({
     status: 200,
-    description : 
+    description: 
     `
     댓글 삭제 완료
     `
   })
-  @Delete('post/:postId/comments/:commentsId')
+  @Delete('/:postId/comments/:commentsId')
+  @UseGuards(new LoggedInGuard())
   async commentsDelete(
-    @User() user:Users,
-    @Param('postId') postId:number,
-    @Param('commentsId') commentsId:number
+    @User() user: Users,
+    @Param('postId') postId: number,
+    @Param('commentsId') commentsId: number
   ){
     const result = await this.commentsService.commentsDelete(
       user.id,

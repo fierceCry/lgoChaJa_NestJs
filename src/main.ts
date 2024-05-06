@@ -45,11 +45,11 @@ async function bootstrap() {
   const SequelizeStore = connectSessionSequelize(session.Store);
   const sessionStore = new SequelizeStore({
     db: sequelize,
-    expiration: 3600000,
-    checkExpirationInterval: 3600000 // 15분마다 만료된 세션을 체크하여 삭제
+    expiration: 21600000, // 세션 만료 시간을 6시간으로 설정
+    checkExpirationInterval: 21600000 // 6시간마다 만료된 세션을 체크하여 삭제
   });
   sessionStore.sync();
-
+  
   app.use(cookieParser());
   app.use(
     session({
@@ -59,10 +59,11 @@ async function bootstrap() {
       store: sessionStore,
       cookie: {
         httpOnly: true,
-        maxAge : 3600000
+        maxAge : 21600000 // 쿠키의 최대 유지 시간을 6시간으로 설정
       },
     }),
   );
+  
 
   // Passport Configuration
   app.use(passport.initialize());
