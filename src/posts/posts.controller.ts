@@ -69,7 +69,7 @@ export class PostsController {
     '게시글 수정 완료'
     `
   })
-  @Put(':postId')
+  @Put('/:postId')
   @UseGuards(new LoggedInGuard())
   async postPatch(
     @User() user: Users,
@@ -104,6 +104,7 @@ export class PostsController {
     @User() user: Users,
     @Param('postId') postId:number
   ){
-    return await this.postService.postDelete(user.id, postId)
+    const result = await this.postService.postDelete(user.id, postId)
+    return {data:result}
   }
 }

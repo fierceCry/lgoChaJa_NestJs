@@ -21,8 +21,8 @@ export class MypageService {
       u.nickname,
       u.image,
       (SELECT COUNT(DISTINCT f.follower_id) 
-      FROM follows f 
-      WHERE f.followed_id = u.id) AS follower_count,
+       FROM follows f 
+       WHERE f.followed_id = u.id) AS follower_count,
       (SELECT JSON_ARRAYAGG(
           JSON_OBJECT(
               'id', p.id,
@@ -31,13 +31,17 @@ export class MypageService {
               'post_content', p.post_content,
               'category_name', 
               (SELECT pc.category_name 
-                FROM posts_categorys pc
-                WHERE pc.id = p.post_category_id)
+               FROM posts_categorys pc
+               WHERE pc.id = p.post_category_id),
+              'comment_count', 
+              (SELECT COUNT(c.id) 
+               FROM posts_comments c 
+               WHERE c.post_id = p.id)
           )
       ) FROM post p WHERE p.user_id = u.id) AS posts
-      FROM users u
-      WHERE u.id = ?
-      GROUP BY u.id; 
+    FROM users u
+    WHERE u.id = ?
+    GROUP BY u.id;
     `,
       [userId],
     );
